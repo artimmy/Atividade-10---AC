@@ -1,0 +1,63 @@
+<nav class="navbar navbar-light bg-light navbar-expand-sm fixed-top py-0">
+    <div class="container">
+        <a class="navbar-brand" href="#">Cadasto de Alunos</a>
+    </div>
+</nav>
+
+<div class="container" style="margin-top:80px">
+    <form (ngSubmit)="salvar()" (reset)="limpar()">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">ID</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm"
+                [(ngModel)]="servico.alunoSelecionado.idaluno" name="idaluno" disabled> <!-- safe navigation operator -->
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Nome</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm" 
+                [(ngModel)]="servico.alunoSelecionado.nome" name="nome">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Idade</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control form-control-sm" min="18" max="100" 
+                [(ngModel)]="servico.alunoSelecionado.idade" name="idade">
+            </div>
+        </div>
+        <div class="form-group row border-top border-secondary pt-3">
+            <button type="submit" class="btn btn-sm btn-primary mr-3">Salvar</button>
+            <button type="reset" class="btn btn-sm btn-primary">Limpar</button>
+        </div>
+    </form>
+
+    <div class="table-responsive table-responsive-md mt-5">
+        <h5>Alunos cadastrados</h5>
+        <table class="table table-sm table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">NOME</th>
+                    <th scope="col">IDADE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let aluno of servico.alunos$ | async" 
+                    (click)="selecionar(aluno)" 
+                    (contextmenu)="excluir(aluno)"
+                    [class.selecionada]="aluno.idaluno === servico.alunoSelecionado.idaluno">
+                    <td>{{aluno.idaluno}}</td>
+                    <td>{{aluno.nome}}</td>
+                    <td>{{aluno.idade}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="text-right">Total: {{(servico.alunos$| async)?.length}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
